@@ -5,6 +5,7 @@ module Bird(
   Reply(..),
   ok, 
   notFound,
+  forbidden,
   envToRequest,
   replyToResponse
 ) where
@@ -59,6 +60,8 @@ ok = def
 
 notFound :: Reply
 notFound = def { stat = 404, bod = "404 Not Found" }
+
+forbidden = def { stat = 403, bod = "403 Forbidden" }
 
 split :: Char -> String -> [String]
 split d s

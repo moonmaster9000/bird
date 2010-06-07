@@ -6,7 +6,7 @@ A sinatra-ish web framework written in haskell, riding on top of Hack.
 
 Sinatra has a beautiful, simple, elegant syntax, but it's essentially an attempt to bring pattern matching to a language never intended for 
 pattern matching. Why not attempt something similar in a language with not just beautiful pattern matching, but with all the declarative 
-bells and whistles: lazy evaluation, first-class functions, currying, polymorphism.
+bells and whistles: lazy evaluation, first-class functions, currying, polymorphism?
 
 ## Install
 
@@ -31,14 +31,12 @@ bells and whistles: lazy evaluation, first-class functions, currying, polymorphi
     -- BirdApp.hs
     module BirdApp where
     import Bird
+    import Data.String.Utils
 
     get :: Request -> Reply
-
-    get Request { path = [] }           
-      = ok { bod = "Howdy, y'all!" }
-
-    get Request { path = ["howdy", n] } 
-      = ok { bod = "Howdy, " ++ n  }
+    
+    get Request { path = ("howdy":xs) } 
+      = ok { bod = "Howdy " ++ $ join ", " xs}
 
     get _ = notFound
 

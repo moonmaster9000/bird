@@ -11,9 +11,15 @@ route e = response
   where 
     r = envToRequest e
     response = do 
-      r <-  
-        case verb r of 
-          GET -> get r
-          _   -> error "not supported"
-      return $ replyToResponse r
+      reply <- matchRequest r
+      return $ replyToResponse reply
+
+matchRequest r = 
+  case verb r of 
+    GET -> get r
+    POST -> post r
+    PUT -> put r
+    DELETE -> delete r
+    _ -> error "not supported"
+    
 main = run app

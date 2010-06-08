@@ -2,8 +2,7 @@ module BirdApp where
 import Bird
 import Data.String.Utils
 
-get :: Request -> IO Reply
-
+get, post, put, delete :: Request -> IO Reply
 get Request { path = [] }           
   = return $ ok { bod = "Hello, World!" }
 
@@ -14,4 +13,7 @@ get Request { path = ("echo":w:[]) }
   | length w == 4 = return $ forbidden { bod = "We cannot echo 4 letter words." }
   | otherwise     = return $ ok { bod = w }
 
-get _ = return $ notFound
+get _ = return notFound
+post _ = return notFound
+put _ = return notFound
+delete _ = return notFound

@@ -3,15 +3,14 @@ import Bird
 import Data.String.Utils
 
 get, post, put, delete :: Request -> IO Reply
-get Request { path = [] }           
-  = return $ ok { bod = "Hello, World!" }
+get Request { path = [] } = ok_ "Hello, World!"
 
 get Request { path = ("hello":xs) } 
-  = return $ ok { bod = (++) "Hello " $ join ", " xs }
+  = ok_ $ (++) "Hello " $ join ", " xs
 
 get Request { path = ("echo":w:[]) }
-  | length w == 4 = return $ forbidden { bod = "We cannot echo 4 letter words." }
-  | otherwise     = return $ ok { bod = w }
+  | length w == 4 = forbidden_ "We cannot echo 4 letter words."
+  | otherwise     = ok_ w
 
 get _ = return notFound
 post _ = return notFound

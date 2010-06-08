@@ -4,8 +4,11 @@ module Bird(
   Request(..),
   Reply(..),
   ok, 
+  ok_,
   notFound,
+  notFound_,
   forbidden,
+  forbidden_,
   envToRequest,
   replyToResponse
 ) where
@@ -58,10 +61,20 @@ instance Default Reply where
 ok :: Reply
 ok = def
 
+ok_ :: String -> IO Reply
+ok_ body = return $ ok { bod = body }
+
 notFound :: Reply
 notFound = def { stat = 404, bod = "404 Not Found" }
 
+notFound_ :: String -> IO Reply
+notFound_ body = return $ notFound { bod = body }
+
+forbidden :: Reply
 forbidden = def { stat = 403, bod = "403 Forbidden" }
+
+forbidden_ :: String -> IO Reply
+forbidden_ body = return $ forbidden { bod = body } 
 
 split :: Char -> String -> [String]
 split d s

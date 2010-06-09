@@ -58,23 +58,23 @@ instance Default Request where
 instance Default Reply where
   def = Reply { bod = "", stat = 200, hs = Hash.fromList [("Content-Type", "text/html")] }
 
-ok :: Reply
-ok = def
+ok_ :: Reply
+ok_ = def
 
-ok_ :: String -> IO Reply
-ok_ body = return $ ok { bod = body }
+ok :: String -> IO Reply
+ok body = return $ ok_ { bod = body }
 
-notFound :: Reply
-notFound = def { stat = 404, bod = "404 Not Found" }
+notFound_ :: Reply
+notFound_ = def { stat = 404, bod = "404 Not Found" }
 
-notFound_ :: String -> IO Reply
-notFound_ body = return $ notFound { bod = body }
+notFound :: String -> IO Reply
+notFound body = return $ notFound_ { bod = body }
 
-forbidden :: Reply
-forbidden = def { stat = 403, bod = "403 Forbidden" }
+forbidden_ :: Reply
+forbidden_ = def { stat = 403, bod = "403 Forbidden" }
 
-forbidden_ :: String -> IO Reply
-forbidden_ body = return $ forbidden { bod = body } 
+forbidden :: String -> IO Reply
+forbidden body = return $ forbidden_ { bod = body } 
 
 split :: Char -> String -> [String]
 split d s

@@ -8,7 +8,6 @@ module Bird(
 
 import Hack
 import Data.Default
-import Data.ByteString.Lazy.Char8 (pack)
 import Bird.Reply
 import Bird.Request
 import Bird.HttpReplyCodes

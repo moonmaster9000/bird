@@ -7,18 +7,19 @@ import Data.Default
 
 data Reply = 
   Reply {
-    stat :: Int,
-    hs   :: Hash.Map String String,
-    bod  :: String
+    replyStatus   :: Int,
+    replyHeaders  :: Hash.Map String String,
+    replyBody     :: String,
+    replyMime     :: String
   } deriving (Show)
 
 instance Default Reply where
-  def = Reply { bod = "", stat = 200, hs = Hash.fromList [("Content-Type", "text/html")] }
+  def = Reply { replyMime = "text/html", replyBody = "", replyStatus = 200, replyHeaders = Hash.empty }
 
 replyToResponse :: Reply -> Response
 replyToResponse r = 
   Response {
-    status = stat r,
-    headers = Hash.toList $ hs r,
-    body = pack $ bod r
+    status = replyStatus r,
+    headers = [("Content-Type", replyMime r)] ++ (Hash.toList $ replyHeaders r),
+    body = pack $ replyBody r
   }

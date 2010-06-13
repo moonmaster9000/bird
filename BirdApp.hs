@@ -1,8 +1,10 @@
 module BirdApp where
 import Bird
+import qualified Data.Map as Hash
 
 get, post, put, delete :: Request -> IO Reply
-get Request { path = [] } = ok "Hello, World!"
+get Request { path = [] } = 
+  return $ ok_ { replyBody = "Hello World", replyMime = "text/plain" }
 
 get Request { path = ("hello":xs) } 
   = ok $ "Hello " ++ (foldr ((++) . (++ " ")) "" xs)

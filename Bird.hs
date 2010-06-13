@@ -3,11 +3,11 @@ module Bird(
   module Data.Default, 
   module Bird.Reply,
   module Bird.Request, 
-  module Bird.HttpReplyCodes
+  module Bird.Reply.Codes
 ) where
 
 import Hack
 import Data.Default
 import Bird.Reply
 import Bird.Request
-import Bird.HttpReplyCodes
+import Bird.Reply.Codes

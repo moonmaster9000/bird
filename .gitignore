@@ -2,3 +2,4 @@
 *.hi
 *.o
 *.swp
+bin/bird

@@ -10,38 +10,47 @@ bells and whistles: lazy evaluation, first-class functions, currying, polymorphi
 
 ## Install
 
-    git clone git://github.com/moonmaster9000/bird.git
+    $ cabal update && cabal install bird
 
-## Compile
+Note: make sure $HOME/.cabal/bin is in your PATH.
 
-    bird# ghc --make -O2 Main.hs
+## Create an app
 
-## Start the app
+    $ bird MyApp 
 
-    bird# ./main &
-    bird# curl http://localhost:3000
-      Hello, World!
-    bird# curl http://localhost:3000/hello/github
-      Hello, github!
-    bird# curl http://localhost:3000/hi
+## Compile your app
+
+    $ cd MyApp
+    $ bird build
+
+## Start your app (runs on port 3000)
+
+    $ bird run
+
+## Try it out
+    
+    $ curl http://localhost:3000
       404 Not Found
 
 ## Improvise!
     
-    -- BirdApp.hs
-    module BirdApp where
+    -- MyApp.hs
+    module MyApp where
     import Bird
     import Data.String.Utils
 
-    get :: Request -> Reply
-    
+    get, post, put, delete :: Request -> IO Reply
     get Request { path = ("howdy":xs) } 
-      = ok { bod = "Howdy " ++ $ join ", " xs}
+      = ok $ ("Howdy " ++) $ join ", " xs
 
-    get _ = notFound
+    get _ = return notFound_
+    post _ = return notFound_
+    put _ = return notFound_
+    delete _ = return notFound_
 
 ## Notes
 
-This project is in it's infancy. Like, it was seriously just born. It's not even close to being feature-complete yet. It's not even sure
-what feature complete means yet. Stay tuned.
+This project is *still* in its infancy. Coming features:
 
+* logging
+* support for sending files

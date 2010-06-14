@@ -1,0 +1,22 @@
+Name:                 bird
+Version:              0.0.1
+Build-type:           Simple
+Synopsis:             A simple, sinatra-inspired web framework.
+Description:          Bird is a hack-compatible framework for simple websites.
+License:              BSD3
+License-file:         LICENSE
+Author:               Parker, Matt
+Maintainer:           Parker, Matt <moonmaster9000@gmail.com>
+Build-Depends:        base
+Cabal-version:        >= 1.2
+category:             Web
+homepage:             http://github.com/moonmaster9000/bird
+data-files:           readme.markdown
+
+Executable bird
+  main-Is: bird.hs
+  
+library
+  build-depends: haskell98, process, containers, bytestring, base >= 4.0 && < 5, hack >= 2009.10.30, hyena, data-default >= 0.2 
+  exposed-modules: Bird, Bird.Request, Bird.Reply, Bird.Reply.Codes
+  hs-source-dirs: src/

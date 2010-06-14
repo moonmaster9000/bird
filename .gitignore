@@ -1,5 +1,4 @@
-[Mm]ain
 *.hi
 *.o
 *.swp
-bin/bird
+dist/

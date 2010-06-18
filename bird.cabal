@@ -15,6 +15,7 @@ data-files:           readme.markdown
 
 Executable bird
   main-Is: bird.hs
+  hs-source-dirs: bin
   
 library
   build-depends: haskell98, process, containers, bytestring, base >= 4.0 && < 5, hack >= 2009.10.30, hyena, data-default >= 0.2 

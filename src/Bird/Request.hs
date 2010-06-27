@@ -25,10 +25,18 @@ envToRequest e =
   Request {
     verb = requestMethod e,
     path = split '/' $ pathInfo e,
-    params = Hash.empty,
+    params = Hash.fromList $ buildParams (queryString e),
     protocol = hackUrlScheme e,
     hackEnvironment = e
   }
+
+infixl 9 ==>
+f ==> g = g $ f
+
+buildParams ""          = []
+buildParams queryString = queryString ==> split '&' ==> map (split '=') ==> map tupleize
+
+tupleize (a:b:[]) = (a,b)
 
 split :: Char -> String -> [String]
 split d s

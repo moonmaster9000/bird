@@ -1,3 +1,7 @@
+v0.0.3
+Hack.Handler.Happstack is now the default hack server handler. 
+Also, "bird build" has been replaced with "bird nest" and "bird run" with "bird fly"
+
 v0.0.2
 added support for query string. it's accessible in the request record from "params". 
 it's a Data.Map. 

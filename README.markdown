@@ -21,11 +21,11 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 ## Compile your app
 
     $ cd MyApp
-    $ bird build
+    $ bird nest 
 
 ## Start your app (runs on port 3000)
 
-    $ bird run
+    $ bird fly
 
 ## Try it out
     

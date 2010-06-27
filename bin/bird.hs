@@ -9,8 +9,8 @@ main = do
 
 runArg a = 
   case a of 
-    "build" -> runProcess "ghc" ["--make", "-O2", "Main.hs"] Nothing Nothing Nothing Nothing Nothing >> return ()
-    "run"   -> runProcess "./Main" [] Nothing Nothing Nothing Nothing Nothing >> return ()
+    "nest"  -> runProcess "ghc" ["--make", "-O2", "Main.hs"] Nothing Nothing Nothing Nothing Nothing >> return ()
+    "fly"   -> runProcess "./Main" [] Nothing Nothing Nothing Nothing Nothing >> return ()
     appName -> createBirdApp appName  
 
 createBirdApp a = do

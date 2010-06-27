@@ -1,15 +1,12 @@
 v0.0.2
-  -- added support for query string. it's accessible in the request record from "params". 
-     it's a Data.Map. 
-  -- e.g.: 
-    
-    module Blog where
-    import Bird
-
-    get, post, put, delete :: Request -> IO Reply
-
-    get r = ok $ "query string = " ++ (show $ params r)
-    post _ = return notFound_
-    put _ = return notFound_
-    delete _ = return notFound_
-
+added support for query string. it's accessible in the request record from "params". 
+it's a Data.Map. 
+e.g.: 
+  > module Blog where
+  > import Bird
+  
+  > get, post, put, delete :: Request -> IO Reply
+  > get r = ok $ "query string = " ++ (show $ params r)
+  > post _ = return notFound_
+  > put _ = return notFound_
+  > delete _ = return notFound_

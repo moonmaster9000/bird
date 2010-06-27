@@ -29,7 +29,7 @@ routeFile a =
 
 mainFile a = 
   "import Hack\n" ++
-  "import Hack.Handler.Hyena\n" ++
+  "import Hack.Handler.Happstack\n" ++
   "import Bird\n" ++
   "import " ++ a ++ "\n" ++ "\n" ++
 

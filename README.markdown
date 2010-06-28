@@ -10,26 +10,26 @@ bells and whistles: lazy evaluation, first-class functions, currying, polymorphi
 
 ## Install
 
-    $ cabal update && cabal install bird
+    λ cabal update && cabal install bird
 
 Note: make sure $HOME/.cabal/bin is in your PATH.
 
 ## Create an app
 
-    $ bird MyApp 
+    λ bird MyApp 
 
 ## Compile your app
 
-    $ cd MyApp
-    $ bird nest 
+    λ cd MyApp
+    λ bird nest 
 
 ## Start your app (runs on port 3000)
 
-    $ bird fly
+    λ bird fly
 
 ## Try it out
     
-    $ curl http://localhost:3000
+    λ curl http://localhost:3000
       404 Not Found
 
 ## Improvise!
@@ -41,12 +41,17 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 
     get, post, put, delete :: Request -> IO Reply
     get Request { path = ("howdy":xs) } 
-      = ok $ ("Howdy " ++) $ join ", " xs
+      = ok $ "Howdy " ++ (join ", " xs) ++ "!"
 
     get _ = return notFound_
     post _ = return notFound_
     put _ = return notFound_
     delete _ = return notFound_
+
+now:
+
+    λ curl http://localhost:3000/howdy/there/pardna
+        Howdy there, pardna!
 
 ## Notes
 

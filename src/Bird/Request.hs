@@ -6,6 +6,7 @@ module Bird.Request(
 import Hack
 import Data.Default
 import Data.ByteString.Lazy.Char8 (pack)
+import Rallod
 import qualified Data.Map as Hash
 
 data Request = 
@@ -30,11 +31,12 @@ envToRequest e =
     hackEnvironment = e
   }
 
-infixl 9 ==>
-f ==> g = g $ f
-
 buildParams ""          = []
-buildParams queryString = queryString ==> split '&' ==> map (split '=') ==> map tupleize
+buildParams queryString = 
+  queryString     ==> 
+  split '&'       ==> 
+  map (split '=') ==> 
+  map tupleize
 
 tupleize (a:b:[]) = (a,b)
 

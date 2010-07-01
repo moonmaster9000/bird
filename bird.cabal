@@ -1,5 +1,5 @@
 Name:                 bird
-Version:              0.0.3
+Version:              0.0.4
 Build-type:           Simple
 Synopsis:             A simple, sinatra-inspired web framework.
 Description:          Bird is a hack-compatible framework for simple websites.
@@ -18,6 +18,6 @@ Executable bird
   hs-source-dirs: bin
   
 library
-  build-depends: haskell98, process, containers, bytestring, base >= 4.0 && < 5, hack >= 2009.10.30, hack-handler-happstack, data-default >= 0.2 
+  build-depends: haskell98, process, containers, bytestring, base >= 4.0 && < 5, hack >= 2009.10.30, hack-handler-happstack, data-default >= 0.2, rallod 
   exposed-modules: Bird, Bird.Request, Bird.Reply, Bird.Reply.Codes
   hs-source-dirs: src/

@@ -1,9 +1,9 @@
 module Bird(
-  module Hack, 
-  module Data.Default, 
-  module Bird.Reply,
-  module Bird.Request, 
-  module Bird.Reply.Codes
+  module Hack 
+, module Data.Default 
+, module Bird.Reply
+, module Bird.Request 
+, module Bird.Reply.Codes
 ) where
 
 import Hack

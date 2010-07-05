@@ -16,7 +16,6 @@ keyValuePair = do
   v <- optionMaybe (char '=' >> many valueCharacters)
   return (k, v)
 
-
 keyCharacters :: CharParser () Char 
 keyCharacters = 
   oneOf urlBaseChars 

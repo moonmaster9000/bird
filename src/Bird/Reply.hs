@@ -2,7 +2,7 @@ module Bird.Reply where
 
 import qualified Data.Map as Hash
 import Data.ByteString.Lazy.Char8 (pack)
-import Hack
+import qualified Hack as Hack
 import Data.Default
 
 data Reply = 
@@ -16,10 +16,10 @@ data Reply =
 instance Default Reply where
   def = Reply { replyMime = "text/html", replyBody = "", replyStatus = 200, replyHeaders = Hash.empty }
 
-replyToResponse :: Reply -> Response
+replyToResponse :: Reply -> Hack.Response
 replyToResponse r = 
-  Response {
-    status = replyStatus r,
-    headers = [("Content-Type", replyMime r)] ++ (Hash.toList $ replyHeaders r),
-    body = pack $ replyBody r
+  Hack.Response {
+    Hack.status = replyStatus r,
+    Hack.headers = [("Content-Type", replyMime r)] ++ (Hash.toList $ replyHeaders r),
+    Hack.body = pack $ replyBody r
   }

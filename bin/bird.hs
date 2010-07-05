@@ -21,11 +21,12 @@ createBirdApp a = do
 routeFile a = 
   "module " ++ a ++ " where\n" ++
   "import Bird\n\n" ++ 
-  "get, post, put, delete :: Request -> BirdRouter ()\n" ++
-  "get r = responseBody \"Hello, Bird!\"\n" ++
-  "post _ = return ()\n" ++
-  "put _ = return ()\n" ++
-  "delete _ = return ()\n"
+  "get, post, put, delete :: Path -> BirdRouter ()\n" ++
+  "get [] = body \"Hello, Bird!\"\n" ++
+  "get _ = status 404\n" ++
+  "post _ = status 404\n" ++
+  "put _ = status 404\n" ++
+  "delete _ = status 404\n"
 
 mainFile a = 
   "import Hack\n" ++
@@ -47,10 +48,10 @@ mainFile a =
 
   "matchRequest r = \n" ++
   "  case verb r of \n" ++
-  "    GET -> get r\n" ++
-  "    POST -> post r\n" ++
-  "    PUT -> put r\n" ++
-  "    DELETE -> delete r\n" ++
+  "    GET -> get $ path r\n" ++
+  "    POST -> post $ path r\n" ++
+  "    PUT -> put $ path r\n" ++
+  "    DELETE -> delete $ path r\n" ++
   "    _ -> error \"not supported\"\n" ++ "\n" ++
       
   "main = run app\n"

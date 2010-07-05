@@ -1,5 +1,6 @@
 module Bird.Request(
   Request(..),
+  Path,
   envToRequest
 ) where
 
@@ -11,10 +12,12 @@ import Text.ParserCombinators.Parsec
 import Numeric
 import Bird.Request.QueryStringParser
 
+type Path = [String]
+
 data Request = 
   Request { 
     verb      :: RequestMethod,
-    path      :: [String],
+    path      :: Path,
     params    :: [(String, Maybe String)],
     protocol  :: Hack_UrlScheme,
     hackEnvironment :: Env

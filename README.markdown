@@ -39,19 +39,26 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
     import Bird
     import Data.String.Utils
 
-    get, post, put, delete :: Request -> IO Reply
-    get Request { path = ("howdy":xs) } 
-      = ok $ "Howdy " ++ (join ", " xs) ++ "!"
+    get, post, put, delete :: Path -> BirdRouter ()
+    get ("howdy":xs) = body $ "Howdy " ++ (join ", " xs) ++ "!"
 
-    get _ = return notFound_
-    post _ = return notFound_
-    put _ = return notFound_
-    delete _ = return notFound_
+    get ["droids"] = do
+      body "Nothing to see here. Move along."
+      status 404
+
+    get _ = status 404
+    post _ = status 404
+    put _ = status 404
+    delete _ = status 404
 
 now:
 
     λ curl http://localhost:3000/howdy/there/pardna
         Howdy there, pardna!
+
+    λ curl http://localhost:3000/droids
+        Nothing to see here. Move along.
+
 
 ## Notes
 

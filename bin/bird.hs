@@ -43,7 +43,7 @@ mainFile a =
   "  where \n" ++
   "    r = envToRequest e\n" ++
   "    response = do \n" ++
-  "      reply <- S.execState (matchRequest r) def\n" ++
+  "      reply <- S.execStateT (matchRequest r) def\n" ++
   "      return $ replyToResponse reply\n" ++ "\n" ++
 
   "matchRequest r = \n" ++

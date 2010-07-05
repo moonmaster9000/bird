@@ -10,26 +10,25 @@ import Rallod
 import Text.ParserCombinators.Parsec
 import Numeric
 import Bird.Request.QueryStringParser
-import qualified Data.Map as Hash
 
 data Request = 
   Request { 
     verb      :: RequestMethod,
     path      :: [String],
-    params    :: Hash.Map String (Maybe String),
+    params    :: [(String, Maybe String)],
     protocol  :: Hack_UrlScheme,
     hackEnvironment :: Env
   } deriving (Show)
 
 instance Default Request where
-  def = Request { verb = GET, path = [], params = Hash.empty, protocol = HTTP, hackEnvironment = def }
+  def = Request { verb = GET, path = [], params = [], protocol = HTTP, hackEnvironment = def }
 
 envToRequest :: Env -> Request
 envToRequest e = 
   Request {
     verb = requestMethod e,
     path = split '/' $ pathInfo e,
-    params = Hash.fromList $ parseQueryString $ queryString e,
+    params = parseQueryString $ queryString e,
     protocol = hackUrlScheme e,
     hackEnvironment = e
   }

@@ -21,16 +21,17 @@ createBirdApp a = do
 routeFile a = 
   "module " ++ a ++ " where\n" ++
   "import Bird\n\n" ++ 
-  "get, post, put, delete :: Request -> IO Reply\n" ++
-  "get _ = return notFound_\n" ++
-  "post _ = return notFound_\n" ++
-  "put _ = return notFound_\n" ++
-  "delete _ = return notFound_\n"
+  "get, post, put, delete :: Request -> BirdRouter ()\n" ++
+  "get r = responseBody \"Hello, Bird!\"\n" ++
+  "post _ = return ()\n" ++
+  "put _ = return ()\n" ++
+  "delete _ = return ()\n"
 
 mainFile a = 
   "import Hack\n" ++
   "import Hack.Handler.Happstack\n" ++
   "import Bird\n" ++
+  "import qualified Control.Monad.State as S\n" ++
   "import " ++ a ++ "\n" ++ "\n" ++
 
   "app :: Application\n" ++
@@ -41,7 +42,7 @@ mainFile a =
   "  where \n" ++
   "    r = envToRequest e\n" ++
   "    response = do \n" ++
-  "      reply <- matchRequest r\n" ++
+  "      reply <- S.execState (matchRequest r) def\n" ++
   "      return $ replyToResponse reply\n" ++ "\n" ++
 
   "matchRequest r = \n" ++

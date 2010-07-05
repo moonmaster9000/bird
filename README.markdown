@@ -30,7 +30,12 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 ## Try it out
     
     λ curl http://localhost:3000
-      404 Not Found
+      Hello, Bird!
+    
+    λ curl http://localhost:3000?name=moonmaster9000
+      Hello, moonmaster9000
+
+
 
 ## Improvise!
     
@@ -40,6 +45,10 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
     import Data.String.Utils
 
     get, post, put, delete :: Path -> BirdRouter ()
+    get [] = do
+      name <- param "name"
+      body $ "Hello, " ++ (maybe "Bird!" id name)
+
     get ("howdy":xs) = body $ "Howdy " ++ (join ", " xs) ++ "!"
 
     get ["droids"] = do

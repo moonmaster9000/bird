@@ -9,8 +9,8 @@ main = do
 
 runArg a = 
   case a of 
-    "nest"  -> runProcess "ghc" ["--make", "-O2", "Main.hs"] Nothing Nothing Nothing Nothing Nothing >> return ()
-    "fly"   -> runProcess "./Main" [] Nothing Nothing Nothing Nothing Nothing >> return ()
+    "nest"  -> readProcess "ghc" ["--make", "-O2", "Main.hs"] "" >> return ()
+    "fly"   -> readProcess "./Main" [] "" >> return ()
     appName -> createBirdApp appName  
 
 createBirdApp a = do
@@ -34,8 +34,11 @@ routeFile a =
 
 mainFile a = 
   "import Hack\n" ++
+  "import qualified Hack as Hack\n" ++ 
   "import Hack.Handler.Happstack\n" ++
   "import Bird\n" ++
+  "import qualified Bird as Bird\n" ++
+  "import Bird.Translator.Hack\n" ++
   "import qualified Control.Monad.State as S\n" ++
   "import qualified Control.Monad.Reader as R\n" ++
   "import " ++ a ++ "\n" ++ "\n" ++
@@ -46,17 +49,17 @@ mainFile a =
   "route :: Env -> IO Response\n" ++
   "route e = response\n" ++
   "  where \n" ++
-  "    req = envToRequest e\n" ++
+  "    req = toBirdRequest e\n" ++
   "    response = do \n" ++
   "      reply <- R.runReaderT (S.execStateT (matchRequest req) def) req\n" ++
-  "      return $ replyToResponse reply\n" ++ "\n" ++
+  "      return $ fromBirdReply reply\n" ++ "\n" ++
 
   "matchRequest r = \n" ++
   "  case verb r of \n" ++
-  "    GET -> get $ path r\n" ++
-  "    POST -> post $ path r\n" ++
-  "    PUT -> put $ path r\n" ++
-  "    DELETE -> delete $ path r\n" ++
+  "    Bird.GET -> get $ path r\n" ++
+  "    Bird.POST -> post $ path r\n" ++
+  "    Bird.PUT -> put $ path r\n" ++
+  "    Bird.DELETE -> delete $ path r\n" ++
   "    _ -> error \"not supported\"\n" ++ "\n" ++
       
   "main = run app\n"

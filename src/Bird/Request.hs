@@ -1,45 +1,20 @@
 module Bird.Request(
-  Request(..),
-  Path,
-  envToRequest
+  Request(..)
+, RequestMethod(..)
+, Path
 ) where
-
-import Hack
 import Data.Default
-import Data.ByteString.Lazy.Char8 (pack)
-import Rallod
-import Text.ParserCombinators.Parsec
-import Numeric
-import Bird.Request.QueryStringParser
 
 type Path = [String]
 
+data RequestMethod = GET | POST | PUT | DELETE deriving(Show)
+
 data Request = 
   Request { 
-    verb      :: RequestMethod,
-    path      :: Path,
-    params    :: [(String, Maybe String)],
-    protocol  :: Hack_UrlScheme,
-    hackEnvironment :: Env
+    verb      :: RequestMethod
+  , path      :: Path
+  , params    :: [(String, Maybe String)]
   } deriving (Show)
 
 instance Default Request where
-  def = Request { verb = GET, path = [], params = [], protocol = HTTP, hackEnvironment = def }
-
-envToRequest :: Env -> Request
-envToRequest e = 
-  Request {
-    verb = requestMethod e,
-    path = split '/' $ pathInfo e,
-    params = parseQueryString $ queryString e,
-    protocol = hackUrlScheme e,
-    hackEnvironment = e
-  }
-
-split :: Char -> String -> [String]
-split d s
-  | findSep == [] = []
-  | otherwise     = t : split d s''
-    where
-      (t, s'') = break (== d) findSep
-      findSep = dropWhile (== d) s
+  def = Request { verb = GET, path = [], params = [] }

@@ -60,6 +60,5 @@ mainFile a =
   "    Bird.POST -> post $ path r\n" ++
   "    Bird.PUT -> put $ path r\n" ++
   "    Bird.DELETE -> delete $ path r\n" ++
-  "    _ -> error \"not supported\"\n" ++ "\n" ++
       
   "main = run app\n"

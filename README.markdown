@@ -89,7 +89,7 @@ Inside the function body, you can use the following methods (don't worry, this l
     body :: String -> BirdRouter ()
     -- takes a string and sets the Http Response body to whatever the string contained.
 
-    status :: Integer -> BirdRouter
+    status :: Integer -> BirdRouter ()
     -- takes a number, and sets the HTTP Reponse header "Status" to that number.
 
 ## Notes

@@ -82,9 +82,9 @@ You have four functions to implement: get, post, put, and delete. They each acce
 
 Inside the function body, you can use the following methods (don't worry, this list will grow): 
     
-    param :: String -> String
+    param :: String -> Maybe String
     -- ex: for the request GET /droids?name=c3po, 
-    --     then `p <- param "name"' would bind the value "c3po" to the variable "p"
+    --     then `p <- param "name"' would bind the value `Just "c3po"' to the variable "p"
 
     body :: String -> BirdRouter ()
     -- takes a string and sets the Http Response body to whatever the string contained.

@@ -1,5 +1,6 @@
-module Bird.BirdRouter(
-  BirdRouter
+module Bird.BirdResponder(
+  BirdResponder
+, runBirdResponder
 , body
 , status
 , param
@@ -7,11 +8,15 @@ module Bird.BirdRouter(
 
 import Control.Monad.State
 import Control.Monad.Reader
+import Data.Default
 import Data.Maybe
 import Bird.Reply
 import Bird.Request
 
-type BirdRouter = StateT Reply (ReaderT Request IO)
+type BirdResponder = StateT Reply (ReaderT Request IO)
+
+runBirdResponder request router = 
+  runReaderT (execStateT (router request) def) request
 
 body b = do
   reply <- get

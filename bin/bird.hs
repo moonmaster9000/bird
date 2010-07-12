@@ -22,7 +22,7 @@ routeFile a =
   "module " ++ a ++ " where\n" ++
   "import Data.Maybe\n" ++
   "import Bird\n\n" ++ 
-  "get, post, put, delete :: Path -> BirdRouter ()\n" ++
+  "get, post, put, delete :: Path -> BirdResponder ()\n" ++
   "get [] = do\n" ++
   "  name <- param $ \"name\"\n" ++
   "  body $ \"Hello, \" ++ (maybe \"Bird!\" id name)\n\n" ++
@@ -51,7 +51,7 @@ mainFile a =
   "  where \n" ++
   "    req = toBirdRequest e\n" ++
   "    response = do \n" ++
-  "      reply <- R.runReaderT (S.execStateT (matchRequest req) def) req\n" ++
+  "      reply <- runBirdResponder req matchRequest\n" ++
   "      return $ fromBirdReply reply\n" ++ "\n" ++
 
   "matchRequest r = \n" ++

@@ -1,7 +1,8 @@
 module Main where
+import Directory
 import System.Process
 import System.Environment (getArgs)
-import Directory
+import List
 
 main = do
   args <- getArgs
@@ -9,28 +10,47 @@ main = do
 
 runArg a = 
   case a of 
-    "nest"  -> readProcess "ghc" ["--make", "-O2", "Main.hs"] "" >> return ()
-    "fly"   -> readProcess "./Main" [] "" >> return ()
+    "nest"  -> do
+      appModuleNamePath <- getCurrentDirectory
+      appModuleName <- return $ head . reverse $ split '/' appModuleNamePath 
+      partialRouteFile <- readFile $ appModuleName ++ ".bird.hs"
+      writeFile (appModuleName ++ ".hs") ((appModulePrelude appModuleName)++ "\n" ++ partialRouteFile ++ "\n" ++ appModuleEpilogue)
+      readProcess "ghc" ["--make", "-O2", "Main.hs"] ""
+      files <- getDirectoryContents appModuleNamePath
+      return $ map cleanGHC files
+      renameFile "Main" appModuleName
+      return ()
+    "fly"   -> do
+      appModuleNamePath <- getCurrentDirectory
+      appModuleName <- return $ head . reverse $ split '/' appModuleNamePath 
+      readProcess ("./" ++ appModuleName) [] ""
+      return ()
     appName -> createBirdApp appName  
 
-createBirdApp a = do
-  createDirectory a
-  writeFile (a ++ "/" ++ a ++ ".hs") (routeFile a)
-  writeFile (a ++ "/" ++ "Main.hs") (mainFile a)
+cleanGHC file = 
+  if any (`isSuffixOf` file) [".hi", ".o"]
+  then removeFile file
+  else return ()
 
-routeFile a = 
-  "module " ++ a ++ " where\n" ++
-  "import Data.Maybe\n" ++
-  "import Bird\n\n" ++ 
-  "get, post, put, delete :: Path -> BirdResponder ()\n" ++
-  "get [] = do\n" ++
-  "  name <- param $ \"name\"\n" ++
-  "  body $ \"Hello, \" ++ (maybe \"Bird!\" id name)\n\n" ++
+appModulePrelude appModuleName = 
+  "module " ++ appModuleName ++ " where\n" ++
+  "import Bird\n\n" 
+-- ++ "-- get, post, put, delete :: Path -> BirdResponder ()\n"
 
+
+appModuleEpilogue = 
   "get _ = status 404\n" ++
   "post _ = status 404\n" ++
   "put _ = status 404\n" ++
   "delete _ = status 404\n"
+ 
+
+createBirdApp a = do
+  createDirectory a
+  writeFile (a ++ "/" ++ a ++ ".bird.hs") (routeFile a)
+  writeFile (a ++ "/" ++ "Main.hs") (mainFile a)
+
+routeFile a = "get [] = body \"Hello, Bird!\""
 
 mainFile a = 
   "import Hack\n" ++
@@ -52,13 +72,22 @@ mainFile a =
   "    req = toBirdRequest e\n" ++
   "    response = do \n" ++
   "      reply <- runBirdResponder req matchRequest\n" ++
-  "      return $ fromBirdReply reply\n" ++ "\n" ++
+  "      return $ fromBirdReply reply\n\n" ++
 
   "matchRequest r = \n" ++
   "  case verb r of \n" ++
   "    Bird.GET -> get $ path r\n" ++
   "    Bird.POST -> post $ path r\n" ++
   "    Bird.PUT -> put $ path r\n" ++
-  "    Bird.DELETE -> delete $ path r\n" ++
+  "    Bird.DELETE -> delete $ path r\n\n" ++
       
   "main = run app\n"
+
+split :: Char -> String -> [String]
+split d s
+  | findSep == [] = []
+  | otherwise     = t : split d s''
+    where
+      (t, s'') = break (== d) findSep
+      findSep = dropWhile (== d) s
+

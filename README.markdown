@@ -58,13 +58,30 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
       name <- param "name"
       body $ "Greetings, " ++ (maybe "Jedi!" id name)
 
-now:
+now recompile your app and start it flying:
 
-    λ curl http://localhost:3000/force/Han/Chewie
+    λ bird nest  
+    λ bird fly & 
+    
+    λ curl -i http://localhost:3000/force/Han/Chewie
+        
+        HTTP/1.1 200 OK
+        Connection: close
+        Content-Type: text/html
+        Date: Sat, 31 Jul 2010 14:07:17 GMT
+        Server: Happstack/0.5.0.2
+
         May the force be with you Han, Chewie!
 
-    λ curl http://localhost:3000/droids
-        Nothing to see here. Move along.
+    λ curl -i http://localhost:3000/droids
+        
+        HTTP/1.1 404 Not Found
+        Connection: close
+        Content-Type: text/html
+        Date: Sat, 31 Jul 2010 14:08:35 GMT
+        Server: Happstack/0.5.0.2
+
+        These aren't the droids you're looking for. Move along.
 
 
 ## API

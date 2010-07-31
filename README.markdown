@@ -16,11 +16,11 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 
 ## Create an app
 
-    λ bird MyApp 
+    λ bird StarWars 
 
 ## Compile your app
 
-    λ cd MyApp
+    λ cd StarWars
     λ bird nest 
       [1 of 2] Compiling MyApp            ( MyApp.hs, MyApp.o )
       [2 of 2] Compiling Main             ( Main.hs, Main.o )
@@ -37,40 +37,31 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
     λ curl http://localhost:3000
       Hello, Bird!
     
-    λ curl http://localhost:3000?name=moonmaster9000
-      Hello, moonmaster9000
+    λ curl http://localhost:3000?name=Luke
+      Hello, Luke
 
 
 
 ## Improvise!
     
-    -- MyApp.hs
-    module MyApp where
-    import Bird
-    import Data.String.Utils
-
-    get, post, put, delete :: Path -> BirdRouter ()
+    -- StarWars.bird.hs
+    import Data.String.Utils (join)
     
     get ["droids"] = do
       body "These aren't the droids you're looking for. Move along."
       status 404
 
+    get ("force":xs) = do 
+      body $ "May the force be with you " ++ (join ", " xs) ++ "!"
+    
     get [] = do
       name <- param "name"
-      body $ "Hello, " ++ (maybe "Bird!" id name)
-
-    get ("howdy":xs) = body $ "Howdy " ++ (join ", " xs) ++ "!"
-
-
-    get _ = status 404
-    post _ = status 404
-    put _ = status 404
-    delete _ = status 404
+      body $ "Greetings, " ++ (maybe "Jedi!" id name)
 
 now:
 
-    λ curl http://localhost:3000/howdy/there/pardna
-        Howdy there, pardna!
+    λ curl http://localhost:3000/force/Han/Chewie
+        May the force be with you Han, Chewie!
 
     λ curl http://localhost:3000/droids
         Nothing to see here. Move along.

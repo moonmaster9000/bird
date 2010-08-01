@@ -94,7 +94,7 @@ Inside the function body, you can use the following methods (don't worry, this l
     -- ex: for the request GET /droids?name=c3po, 
     --     then `p <- param "name"' would bind the value `Just "c3po"' to the variable "p"
 
-    body :: String -> BirdRouter ()
+    body :: String -> BirdResponder ()
     -- takes a string and sets the Http Response body to whatever the string contained.
 
     status :: Integer -> BirdResponder ()

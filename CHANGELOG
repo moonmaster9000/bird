@@ -1,3 +1,6 @@
+v0.0.13
+'bird nest' now cleans up after itself. 
+
 v0.0.12 
 `mime` and `header` methods available for your get/post/put/delete function bodies. 
 

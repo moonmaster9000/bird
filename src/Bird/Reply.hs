@@ -5,11 +5,10 @@ import Data.Default
 
 data Reply = 
   Reply {
-    replyStatus   :: Int,
-    replyHeaders  :: Hash.Map String String,
-    replyBody     :: String,
-    replyMime     :: String
+    replyStatus   :: Int
+  , replyHeaders  :: Hash.Map String String
+  , replyBody     :: String
   } deriving (Show)
 
 instance Default Reply where
-  def = Reply { replyMime = "text/html", replyBody = "", replyStatus = 200, replyHeaders = Hash.empty }
+  def = Reply { replyBody = "", replyStatus = 200, replyHeaders = Hash.insert "Content-Type" "text/html" Hash.empty }

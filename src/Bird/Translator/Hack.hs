@@ -15,9 +15,11 @@ instance BirdReplyTranslator Hack.Response where
   fromBirdReply r = 
     Hack.Response {
       Hack.status = replyStatus r,
-      Hack.headers = [("Content-Type", replyMime r)] ++ (Hash.toList $ replyHeaders r),
+      Hack.headers = (Hash.toList $ Hash.insertWith insertUnlessPresent "Content-Type" "text/html" $ replyHeaders r),
       Hack.body = pack $ replyBody r
     }
+    where
+      insertUnlessPresent _ oldValue = oldValue
 
 instance BirdRequestTranslator Hack.Env where
   toBirdRequest e = 
@@ -26,6 +28,7 @@ instance BirdRequestTranslator Hack.Env where
     , path = split '/' $ Hack.pathInfo e
     , params = parseQueryString $ Hack.queryString e
     }
+
 
 hackRequestMethodToBirdRequestMethod rm = 
   case rm of 

@@ -1,3 +1,16 @@
+v0.0.12 
+`mime` and `header` methods available for your get/post/put/delete function bodies. 
+
+e.g.:
+  
+  get [] = do
+    body "Hello, World!"
+    mime "text/plain"
+    header "X-Powered-By" "bird"
+
+v0.0.11
+Your application code just got simpler. bird MyApp and check it out. 'get [] = body "Hello World"' constitutes a complete and valid bird app.
+
 v0.0.4
 Using "Rallod" for forward function application.
 

@@ -1,5 +1,5 @@
 Name:                 bird
-Version:              0.0.11
+Version:              0.0.12
 Build-type:           Simple
 Synopsis:             A simple, sinatra-inspired web framework.
 Description:          Bird is a hack-compatible framework for simple websites.

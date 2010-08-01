@@ -97,8 +97,16 @@ Inside the function body, you can use the following methods (don't worry, this l
     body :: String -> BirdRouter ()
     -- takes a string and sets the Http Response body to whatever the string contained.
 
-    status :: Integer -> BirdRouter ()
+    status :: Integer -> BirdResponder ()
     -- takes a number, and sets the HTTP Reponse header "Status" to that number.
+
+    mime :: String -> BirdResponder ()
+    -- sets the mime type to whatever you provide
+    -- ex: get [] = body "Hello World" >> mime "text/plain"
+
+    header :: String -> String -> BirdResponder ()
+    -- creates/updates a header
+    -- ex: get [] = body "Hello World" >> header "X-Powered-By" "BIRD!"
 
 ## Notes
 

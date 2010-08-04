@@ -22,8 +22,8 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 
     λ cd StarWars
     λ bird nest 
-      [1 of 2] Compiling MyApp            ( MyApp.hs, MyApp.o )
-      [2 of 2] Compiling Main             ( Main.hs, Main.o )
+      [1 of 2] Compiling StarWars           ( StarWars.hs, StarWars.o )
+      [2 of 2] Compiling Main               ( Main.hs, Main.o )
       Linking Main ...
     λ 
 

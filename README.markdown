@@ -1,11 +1,11 @@
 # Bird
 
-A sinatra-ish web framework written in haskell, riding on top of Hack. 
+A sinatra-ish web framework written in haskell, riding on top of Hack.
 
 ## Why?
 
-Sinatra has a beautiful, simple, elegant syntax, but it's essentially an attempt to bring pattern matching to a language never intended for 
-pattern matching. Why not attempt something similar in a language with not just beautiful pattern matching, but with all the declarative 
+Sinatra has a beautiful, simple, elegant syntax, but it's essentially an attempt to bring pattern matching to a language never intended for
+pattern matching. Why not attempt something similar in a language with not just beautiful pattern matching, but with all the declarative
 bells and whistles: lazy evaluation, first-class functions, currying, polymorphism?
 
 ## Install
@@ -16,7 +16,7 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 
 ## Create an app
 
-    λ bird StarWars 
+    λ bird new StarWars
 
 ## Compile your app
 
@@ -25,7 +25,7 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
       [1 of 2] Compiling StarWars           ( StarWars.hs, StarWars.o )
       [2 of 2] Compiling Main               ( Main.hs, Main.o )
       Linking Main ...
-    λ 
+    λ
 
 
 ## Start your app (runs on port 3000)
@@ -33,38 +33,36 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
     λ bird fly
 
 ## Try it out
-    
+
     λ curl http://localhost:3000
       Hello, Bird!
-    
+
     λ curl http://localhost:3000?name=Luke
       Hello, Luke
 
-
-
 ## Improvise!
-    
+
     -- StarWars.bird.hs
     import Data.String.Utils (join)
-    
+
     get ["droids"] = do
       body "These aren't the droids you're looking for. Move along."
       status 404
 
-    get ("force":xs) = do 
+    get ("force":xs) = do
       body $ "May the force be with you " ++ (join ", " xs) ++ "!"
-    
+
     get [] = do
       name <- param "name"
       body $ "Greetings, " ++ (maybe "Jedi!" id name)
 
 now recompile your app and start it flying:
 
-    λ bird nest  
-    λ bird fly & 
-    
+    λ bird nest
+    λ bird fly &
+
     λ curl -i http://localhost:3000/force/Han/Chewie
-        
+
         HTTP/1.1 200 OK
         Connection: close
         Content-Type: text/html
@@ -74,7 +72,7 @@ now recompile your app and start it flying:
         May the force be with you Han, Chewie!
 
     λ curl -i http://localhost:3000/droids
-        
+
         HTTP/1.1 404 Not Found
         Connection: close
         Content-Type: text/html
@@ -86,12 +84,12 @@ now recompile your app and start it flying:
 
 ## API
 
-You have four functions to implement: get, post, put, and delete. They each accept a Bird Request. 
+You have four functions to implement: get, post, put, and delete. They each accept a Bird Request.
 
-Inside the function body, you can use the following methods (don't worry, this list will grow): 
-    
+Inside the function body, you can use the following methods (don't worry, this list will grow):
+
     param :: String -> Maybe String
-    -- ex: for the request GET /droids?name=c3po, 
+    -- ex: for the request GET /droids?name=c3po,
     --     then `p <- param "name"' would bind the value `Just "c3po"' to the variable "p"
 
     body :: String -> BirdResponder ()

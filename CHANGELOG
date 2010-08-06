@@ -1,3 +1,6 @@
+v0.0.14
+better "bird" command, thanks to @jasondew. "bird hatch MyApp" for a new app; "bird help" or "bird --help" for more info.
+
 v0.0.13
 'bird nest' now cleans up after itself. 
 

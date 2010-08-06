@@ -16,7 +16,7 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 
 ## Create an app
 
-    λ bird new StarWars
+    λ bird hatch StarWars
 
 ## Compile your app
 
@@ -111,4 +111,8 @@ Inside the function body, you can use the following methods (don't worry, this l
 This project is *still* in its infancy. Coming features:
 
 * logging
+* post/put/delete http param processing
+* helpers for popular html generation solutions (Hamlet, HStringTemplate, HAXML, BlazeHTML, etc.)
+* WAI support
+* static asset serving
 * support for sending files

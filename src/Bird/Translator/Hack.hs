@@ -19,7 +19,7 @@ instance BirdReplyTranslator Hack.Response where
       Hack.body = pack $ replyBody r
     }
     where
-      insertUnlessPresent _ oldValue = oldValue
+      insertUnlessPresent = flip const
 
 instance BirdRequestTranslator Hack.Env where
   toBirdRequest e = 

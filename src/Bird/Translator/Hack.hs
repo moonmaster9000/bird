@@ -27,7 +27,13 @@ instance BirdRequestTranslator Hack.Env where
       verb = hackRequestMethodToBirdRequestMethod $ Hack.requestMethod e
     , path = split '/' $ Hack.pathInfo e
     , params = parseQueryString $ Hack.queryString e
+    , rawRequestUri = (Hack.pathInfo e) ++ maybeQueryString e
     }
+    where
+      maybeQueryString e =
+        if Hack.queryString e /= ""
+        then "?" ++ Hack.queryString e
+        else ""
 
 
 hackRequestMethodToBirdRequestMethod rm = 

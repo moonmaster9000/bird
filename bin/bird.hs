@@ -65,7 +65,7 @@ routeFile a = "get [] = body \"Hello, Bird!\""
 configFile a = 
   "module " ++ a ++ ".Config where\n\n" ++
   "import Bird\n\n" ++ 
-  "config :: BirdConfig" ++
+  "config :: BirdConfig\n" ++
   "config = def\n"
 
 mainFile a =
@@ -98,7 +98,9 @@ mainFile a =
   "    Bird.PUT -> put $ path r\n" ++
   "    Bird.DELETE -> delete $ path r\n\n" ++
 
-  "main = run app\n"
+  "main = do\n" ++
+  "  putStrLn \"A bird was just spotted in flight at http://localhost:3000\"\n" ++
+  "  run app\n"
 
 split :: Char -> String -> [String]
 split d s

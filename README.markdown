@@ -54,6 +54,7 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
 
     get [] = do
       name <- param "name"
+      log "I'm about to greet a Jedi. Teehee!"
       body $ "Greetings, " ++ (maybe "Jedi!" id name)
 
 now recompile your app and start it flying:
@@ -106,11 +107,14 @@ Inside the function body, you can use the following methods (don't worry, this l
     -- creates/updates a header
     -- ex: get [] = body "Hello World" >> header "X-Powered-By" "BIRD!"
 
+    log :: String -> BirdResponder ()
+    -- adds to the log
+    -- ex: get [] = body "Hello World" >> log "Why did I just greet the world?"
+
 ## Notes
 
 This project is *still* in its infancy. Coming features:
 
-* logging
 * post/put/delete http param processing
 * helpers for popular html generation solutions (Hamlet, HStringTemplate, HAXML, BlazeHTML, etc.)
 * WAI support

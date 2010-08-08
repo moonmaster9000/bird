@@ -1,3 +1,14 @@
+v0.0.15
+now includes logging! To add to the log in your get/post/put/delete methods, simply call the "log" action with a string log message.
+if you want to plug in your own custom logger, set it in your MyApp/MyApp/Config.hs file: 
+  
+  config = 
+    def {
+      birdLogger = myCustomLogger
+    }
+                           
+your custom logger method signature must be: Request -> (Request -> BirdResponder ()) -> IO Reply
+
 v0.0.14
 better "bird" command, thanks to @jasondew. "bird hatch MyApp" for a new app; "bird help" or "bird --help" for more info.
 

@@ -1,4 +1,4 @@
-v0.0.15
+v0.0.16
 now includes logging! To add to the log in your get/post/put/delete methods, simply call the "log" action with a string log message.
 if you want to plug in your own custom logger, set it in your MyApp/MyApp/Config.hs file: 
   

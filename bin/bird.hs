@@ -3,6 +3,8 @@ import Directory
 import System.Process
 import System.Environment (getArgs)
 import List
+import Data.List
+import Data.List.Utils (join)
 
 main = do
   args <- getArgs
@@ -15,11 +17,12 @@ runArg arguments =
     ["nest"] -> do
       appModuleNamePath <- getCurrentDirectory
       appModuleName <- return $ head . reverse $ split '/' appModuleNamePath
-      partialRouteFile <- readFile $ appModuleName ++ ".bird.hs"
-      writeFile (appModuleName ++ ".hs") ((appModulePrelude appModuleName)++ "\n" ++ partialRouteFile ++ "\n" ++ appModuleEpilogue)
+      app <- readFile $ appModuleName ++ ".bird.hs"
+      let reformattedApp = reformatApp (lines app)
+      writeFile (appModuleName ++ ".hs") ((appModulePrelude appModuleName)++ "\n" ++ reformattedApp ++ "\n")
       system "ghc --make -O2 Main.hs"
       files <- getDirectoryContents appModuleNamePath
-      system $ "rm *.o *.hi " ++ appModuleName ++ ".hs"
+      system "rm *.o *.hi "
       renameFile "Main" (appModuleName ++ "App")
       return ()
     ["fly"] -> do
@@ -33,6 +36,14 @@ runArg arguments =
       printHelp
     [] -> printHelp
 
+reformatApp app = join "\n" $ strippedApp ++ getFunction ++ postFunction ++ putFunction ++ deleteFunction
+  where
+    getFunction = extractFunction "get" app
+    postFunction = extractFunction "post" app
+    putFunction = extractFunction "put" app
+    deleteFunction = extractFunction "delete" app
+    strippedApp = app \\ (concat [getFunction, postFunction, putFunction, deleteFunction])
+
 printHelp = do
   putStrLn $ "Usage: bird action [options]\n\n" ++
              "  Actions:\n" ++
@@ -45,12 +56,6 @@ appModulePrelude appModuleName =
   "module " ++ appModuleName ++ " where\n" ++
   "import Bird\n" ++
   "import Prelude hiding( log )\n\n"
-
-appModuleEpilogue =
-  "get _ = status 404\n" ++
-  "post _ = status 404\n" ++
-  "put _ = status 404\n" ++
-  "delete _ = status 404\n"
 
 createBirdApp a = do
   createDirectory a
@@ -101,6 +106,19 @@ mainFile a =
   "main = do\n" ++
   "  putStrLn \"A bird was just spotted in flight at http://localhost:3000\"\n" ++
   "  run app\n"
+
+extractFunction :: String -> [String] -> [String]
+extractFunction f program = (concat (findAll f program)) ++ [(f ++ " _ = status 404")]
+
+findAll _ [] = []
+findAll function program =  
+  case (dropWhile (not . ((function ++ " ") `isPrefixOf`)) program) of 
+    [] -> []
+    (l:ls) -> 
+      f : findAll function remainingProgram
+        where
+          (functionBody, remainingProgram) = break (not . (" " `isPrefixOf`)) ls
+          f = [l] ++ functionBody
 
 split :: Char -> String -> [String]
 split d s

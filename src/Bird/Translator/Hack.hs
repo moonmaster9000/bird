@@ -9,7 +9,8 @@ import Bird.Translator
 import Bird.Request
 import Bird.Reply
 import Bird.Request.QueryStringParser
-import Data.ByteString.Lazy.Char8 (pack)
+import Bird.Request.UrlencodedFormParser
+import Data.ByteString.Lazy.Char8 (pack, unpack)
 
 instance BirdReplyTranslator Hack.Response where
   fromBirdReply r = 
@@ -26,14 +27,21 @@ instance BirdRequestTranslator Hack.Env where
     Request {
       verb = hackRequestMethodToBirdRequestMethod $ Hack.requestMethod e
     , path = split '/' $ Hack.pathInfo e
-    , params = parseQueryString $ Hack.queryString e
-    , rawRequestUri = (Hack.pathInfo e) ++ maybeQueryString e
+    , params = parsedParams
+    , rawRequestUri = (Hack.pathInfo e) ++ maybeQueryString
     }
     where
-      maybeQueryString e =
+      maybeQueryString =
         if Hack.queryString e /= ""
         then "?" ++ Hack.queryString e
         else ""
+      parsedQueryString = parseQueryString (Hack.queryString e)
+      parsedUrlencodedForm = 
+        if   (Hack.requestMethod e == Hack.POST || Hack.requestMethod e == Hack.PUT) && 
+             lookup "Content-Type" (Hack.http e) == Just "application/x-www-form-urlencoded"
+        then parseQueryString (unpack $ Hack.hackInput e)
+        else []
+      parsedParams = parsedQueryString ++ parsedUrlencodedForm
 
 
 hackRequestMethodToBirdRequestMethod rm = 

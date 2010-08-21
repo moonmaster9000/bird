@@ -48,6 +48,14 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
       body "These aren't the droids you're looking for. Move along."
       status 404
 
+    post ["jedi"] = do
+      name <- param "name"
+      teacher <- param "teacher"
+      case teacher of 
+        Just "Yoda" -> body "The force is strong with this one!"      >> status 201
+        _           -> body "Sorry. The force is not with this one."  >> status 400 
+
+
     get ("force":xs) = do
       body $ "May the force be with you " ++ (join ", " xs) ++ "!"
 
@@ -70,6 +78,18 @@ Now recompile your app and start it flying:
         Server: Happstack/0.5.0.2
 
         May the force be with you Han, Chewie!
+
+    
+    λ curl -i -X POST http://localhost:3000/jedi -d name=Luke -d teacher=Yoda
+        
+        HTTP/1.1 201 Created
+        Connection: close
+        Content-Type: text/html
+        Date: Sat, 21 Aug 2010 21:38:11 GMT
+        Server: Happstack/0.5.0.2
+
+        The force is strong with this one!
+    
 
     λ curl -i http://localhost:3000/droids
 

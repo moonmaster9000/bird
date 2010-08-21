@@ -134,7 +134,7 @@ Inside the function body, you can use the following methods (don't worry, this i
 
 This project is *still* in its infancy. Coming features:
 
-* post/put/delete http param processing
+* support for multipart forms submissions
 * helpers for popular html generation solutions (Hamlet, HStringTemplate, HAXML, BlazeHTML, etc.)
 * WAI support
 * static asset serving

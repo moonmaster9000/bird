@@ -1,3 +1,28 @@
+# v0.0.19
+
+Now you can fly your bird on any port you choose: 
+
+
+
+λ bird
+Usage: bird action [options]
+
+  Actions:
+      hatch       -> create a new Bird app, takes the name as an argument, for example `bird hatch StarWars`
+      nest        -> compile your Bird app
+      fly [port]  -> expose your Bird app to the world (port 3000 by default)
+
+λ bird hatch StarWars && cd StarWars
+λ bird nest 
+λ bird fly
+A bird was just spotted flying at http://localhost:3000
+^C
+
+λ bird fly 8080
+A bird was just spotted flying at http://localhost:8080
+^C
+
+
 # v0.0.18
 
 Basic param processing for POST/PUT's that have the content type "application/x-www-form-urlencoded". e.g.: 

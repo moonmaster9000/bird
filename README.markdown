@@ -40,7 +40,7 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
     λ
 
 
-## Start your app (runs on port 3000)
+## Start your app (defaults to port 3000)
 
     λ bird fly
       A bird was just spotted in flight at http://localhost:3000

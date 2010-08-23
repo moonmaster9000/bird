@@ -14,6 +14,17 @@ bells and whistles: lazy evaluation, first-class functions, currying, polymorphi
 
 Note: make sure $HOME/.cabal/bin is in your PATH.
 
+## Checkout the bird command
+
+    λ bird
+    Usage: bird action [options]
+
+      Actions:
+          hatch [name] -> create a new Bird app, takes the name as an argument, for example `bird hatch StarWars`
+          nest         -> compile your Bird app
+          fly [port]   -> expose your Bird app to the world (port 3000 by default)
+
+
 ## Create an app
 
     λ bird hatch StarWars
@@ -52,9 +63,8 @@ Note: make sure $HOME/.cabal/bin is in your PATH.
       name <- param "name"
       teacher <- param "teacher"
       case teacher of 
-        Just "Yoda" -> body "The force is strong with this one!"      >> status 201
-        _           -> body "Sorry. The force is not with this one."  >> status 400 
-
+        Just "Yoda" -> body "The force is strong with this one!"  >> status 201
+        _           -> body "Weak the force is with this one."    >> status 400 
 
     get ("force":xs) = do
       body $ "May the force be with you " ++ (join ", " xs) ++ "!"
